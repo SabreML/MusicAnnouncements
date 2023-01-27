@@ -8,8 +8,8 @@ using UnityEngine;
 namespace MusicAnnouncement
 {
 	[BepInPlugin("sabreml.musicannouncement", "MusicAnnouncement", "1.0")]
-    public class MusicAnnouncementMod : BaseUnityPlugin
-    {
+	public class MusicAnnouncementMod : BaseUnityPlugin
+	{
 		// The name of the song to announce.
 		private string songToAnnounce;
 
