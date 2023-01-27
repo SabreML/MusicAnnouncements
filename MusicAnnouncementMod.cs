@@ -10,8 +10,6 @@ namespace MusicAnnouncement
 	[BepInPlugin("sabreml.musicannouncement", "MusicAnnouncement", "1.0")]
     public class MusicAnnouncementMod : BaseUnityPlugin
     {
-		private ProcessManager mainLoopCache; // For debugging
-
 		// The name of the song to announce.
 		private string songToAnnounce;
 
@@ -20,50 +18,13 @@ namespace MusicAnnouncement
 
 		public void OnEnable()
 		{
-			On.Music.MusicPlayer.ctor += MusicPlayerHK;
 			On.Music.Song.ctor += SongHK;
 			On.Music.MusicPlayer.Update += MusicPlayer_UpdateHK;
 		}
 
-		public void Update() // For debugging
-		{
-			if (Input.GetKeyDown(KeyCode.Keypad1))
-			{
-				StopMusicEvent stopMusicEvent = new StopMusicEvent
-				{
-					type = StopMusicEvent.Type.AllSongs,
-					fadeOutTime = 120f
-				};
-				mainLoopCache.musicPlayer.GameRequestsSongStop(stopMusicEvent);
-				Debug.Log("Stopping current music");
-			}
-			if (Input.GetKeyDown(KeyCode.Keypad2))
-			{
-				MusicEvent musicEvent = new MusicEvent
-				{
-					stopAtDeath = false,
-					stopAtGate = false,
-					oneSongPerCycle = false,
-					cyclesRest = 0,
-					songName = "RW_42 - Kayava"
-				};
-				mainLoopCache.musicPlayer.GameRequestsSong(musicEvent);
-			}
-			if (Input.GetKeyDown(KeyCode.Keypad3))
-			{
-				(mainLoopCache.currentMainLoop as RainWorldGame).cameras[0].hud.textPrompt.AddMessage("Wiggling around quickly might startle this creature.", 30, 250, true, true);
-			}
-		}
-
-		private void MusicPlayerHK(On.Music.MusicPlayer.orig_ctor orig, MusicPlayer self, ProcessManager manager)
-		{
-			orig(self, manager);
-			mainLoopCache = manager;
-		}
-
 		// Called when a new song is instantiated.
 		// If it's the correct type of song (playing as a random event ingame), `songToAnnounce` and `announceAttempts` are set.
-		private void SongHK(On.Music.Song.orig_ctor orig, Music.Song self, Music.MusicPlayer musicPlayer, string name, Music.MusicPlayer.MusicContext context)
+		private void SongHK(On.Music.Song.orig_ctor orig, Song self, MusicPlayer musicPlayer, string name, MusicPlayer.MusicContext context)
 		{
 			orig(self, musicPlayer, name, context);
 			if (context != MusicPlayer.MusicContext.StoryMode) // Ingame music only.
@@ -72,7 +33,6 @@ namespace MusicAnnouncement
 			}
 			if (self.GetType() != typeof(Song)) // Skip over `SSSong`. (Iterator background music)
 			{
-				Debug.Log("skipping");
 				return;
 			}
 
@@ -82,6 +42,7 @@ namespace MusicAnnouncement
 		}
 
 		// Every time `MusicPlayer` updates ingame, try to show the player the announcement (If there is one).
+		// Code mostly taken from `Music.MultiplayerDJ.Update()`.
 		private void MusicPlayer_UpdateHK(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
 		{
 			orig(self);
