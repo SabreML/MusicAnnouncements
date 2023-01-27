@@ -5,10 +5,10 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
-namespace MusicAnnouncement
+namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncement", "MusicAnnouncement", "1.0")]
-	public class MusicAnnouncementMod : BaseUnityPlugin
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.0")]
+	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The name of the song to announce.
 		private string songToAnnounce;

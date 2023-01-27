@@ -7,8 +7,8 @@
     <ProjectGuid>{B5F19BC8-AABD-4BB8-8B8B-F244DFE27D1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MusicAnnouncement</RootNamespace>
-    <AssemblyName>MusicAnnouncement</AssemblyName>
+    <RootNamespace>MusicAnnouncements</RootNamespace>
+    <AssemblyName>MusicAnnouncements</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MusicAnnouncementMod.cs" />
+    <Compile Include="MusicAnnouncementsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
