@@ -31,6 +31,10 @@ namespace MusicAnnouncements
 			{
 				return;
 			}
+			if (!name.Contains(" - ")) // Probably background music. (E.g. 'BM_CC_CANOPY')
+			{
+				return;
+			}
 			if (self.GetType() != typeof(Song)) // Skip over `SSSong`. (Iterator background music)
 			{
 				return;
