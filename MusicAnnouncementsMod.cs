@@ -4,10 +4,11 @@ using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+#pragma warning disable CS0618
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.0")]
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.0.1")]
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The name of the song to announce.

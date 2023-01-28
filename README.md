@@ -12,4 +12,4 @@ Music Announcements is a mod for Rain World which shows the name of the currentl
 ![20230127164421_1](https://user-images.githubusercontent.com/57483089/215154894-025ec59d-cba4-4b16-9833-f38c6c0dcef8.jpg)
 
 ## Compatibility:
-This mod was designed for Rain World Remix/Downpour v1.9, but may work on earlier versions as well.
+This mod was designed for Rain World Remix/Downpour, and most likely won't work on earlier versions.
