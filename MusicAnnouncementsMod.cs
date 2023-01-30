@@ -6,6 +6,8 @@ using UnityEngine;
 
 #pragma warning disable CS0618
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+#pragma warning restore CS0618
+
 namespace MusicAnnouncements
 {
 	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.0.1")]
