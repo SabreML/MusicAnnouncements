@@ -13,6 +13,9 @@ namespace MusicAnnouncements
 	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.1.0")]
 	public partial class MusicAnnouncementsMod : BaseUnityPlugin
 	{
+		// The current mod version. (Set here as a variable so that I don't have to update it in as many places.)
+		public static readonly string version = "1.1.0";
+
 		// The name of the song to announce. (Also used to display the track name in the pause menu)
 		private string songToAnnounce;
 
@@ -21,12 +24,22 @@ namespace MusicAnnouncements
 
 		public void OnEnable()
 		{
+			On.RainWorld.OnModsInit += RainWorld_OnModsInitHK;
+
+			// In-game announcement hooks.
 			On.Music.Song.ctor += SongHK;
 			On.Music.MusicPiece.StopAndDestroy += MusicPiece_StopAndDestroyHK;
 			On.Music.MusicPlayer.Update += MusicPlayer_UpdateHK;
 
 			// Pause menu hooks.
 			SetupPauseMenuHooks();
+		}
+
+		private void RainWorld_OnModsInitHK(On.RainWorld.orig_OnModsInit orig, RainWorld self)
+		{
+			orig(self);
+			// Set up the remix menu.
+			MachineConnector.SetRegisteredOI("sabreml.musicannouncements", new MusicAnnouncementsConfig());
 		}
 
 		// Called when a new song is instantiated.

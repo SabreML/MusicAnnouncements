@@ -26,7 +26,11 @@ namespace MusicAnnouncements
 			if (songToAnnounce == null)
 			{
 				return;
-				//songToAnnounce = "Kayava"; // Uncomment for debugging/testing.
+			}
+			if (!MusicAnnouncementsConfig.pauseMenuText.Value) // If the player has unticked `pauseMenuText` in the mod's config.
+			{
+				Debug.Log("(MusicAnnouncements) Skipping pause menu text due to config");
+				return;
 			}
 
 			float posX = game.rainWorld.options.ScreenSize.x - 10.01f;
