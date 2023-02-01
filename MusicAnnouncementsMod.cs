@@ -10,10 +10,10 @@ using UnityEngine;
 
 namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.0.1")]
-	public class MusicAnnouncementsMod : BaseUnityPlugin
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.1.0")]
+	public partial class MusicAnnouncementsMod : BaseUnityPlugin
 	{
-		// The name of the song to announce.
+		// The name of the song to announce. (Also used to display the track name in the pause menu)
 		private string songToAnnounce;
 
 		// The number of attempts to make to try and announce the music.
@@ -22,7 +22,11 @@ namespace MusicAnnouncements
 		public void OnEnable()
 		{
 			On.Music.Song.ctor += SongHK;
+			On.Music.MusicPiece.StopAndDestroy += MusicPiece_StopAndDestroyHK;
 			On.Music.MusicPlayer.Update += MusicPlayer_UpdateHK;
+
+			// Pause menu hooks.
+			SetupPauseMenuHooks();
 		}
 
 		// Called when a new song is instantiated.
@@ -38,7 +42,7 @@ namespace MusicAnnouncements
 			{
 				return;
 			}
-			if (self.GetType() != typeof(Song)) // Skip over `SSSong`. (Iterator background music)
+			if (self.GetType() != typeof(Song)) // Skip over other types of BGM too.
 			{
 				return;
 			}
@@ -48,30 +52,33 @@ namespace MusicAnnouncements
 			announceAttempts = 500; // 500 attempts
 		}
 
+		private void MusicPiece_StopAndDestroyHK(On.Music.MusicPiece.orig_StopAndDestroy orig, MusicPiece self)
+		{
+			orig(self);
+			if (self.GetType() == typeof(Song))
+			{
+				songToAnnounce = null;
+			}
+		}
+
 		// Every time `MusicPlayer` updates ingame, try to show the player the announcement (If there is one).
 		// Code mostly taken from `Music.MultiplayerDJ.Update()`.
 		private void MusicPlayer_UpdateHK(On.Music.MusicPlayer.orig_Update orig, MusicPlayer self)
 		{
 			orig(self);
-			if (songToAnnounce == null)
-			{
-				return;
-			}
 
-			announceAttempts--;
 			if (announceAttempts < 1)
 			{
-				songToAnnounce = null;
-				return; // If we're out of attempts, give up.
+				return; // If we're out of attempts, don't go any further.
 			}
+			announceAttempts--;
 
 			if (self.manager.currentMainLoop is RainWorldGame gameLoop)
 			{
 				if (gameLoop.cameras[0]?.room?.ReadyForPlayer != null && gameLoop.cameras[0].hud?.textPrompt?.messages?.Count == 0)
 				{
-					Debug.Log("Announcing " + songToAnnounce);
+					Debug.Log("(MusicAnnouncements) Announcing " + songToAnnounce);
 					AddMusicMessage_HideHUD(gameLoop.cameras[0].hud.textPrompt, songToAnnounce, 240);
-					songToAnnounce = null;
 					announceAttempts = 0;
 				}
 			}
