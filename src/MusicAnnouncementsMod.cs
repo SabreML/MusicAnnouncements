@@ -43,7 +43,7 @@ namespace MusicAnnouncements
 		}
 
 		// Called when a new song is instantiated.
-		// If it's the correct type of song (playing as a random event ingame), `songToAnnounce` and `announceAttempts` are set.
+		// If it's the correct type of song (playing as an event ingame), `songToAnnounce` and `announceAttempts` are set.
 		private void SongHK(On.Music.Song.orig_ctor orig, Song self, MusicPlayer musicPlayer, string name, MusicPlayer.MusicContext context)
 		{
 			orig(self, musicPlayer, name, context);
@@ -65,6 +65,7 @@ namespace MusicAnnouncements
 			announceAttempts = 500; // 500 attempts
 		}
 
+		// Called when a song ends (or is otherwise deleted).
 		private void MusicPiece_StopAndDestroyHK(On.Music.MusicPiece.orig_StopAndDestroy orig, MusicPiece self)
 		{
 			orig(self);
