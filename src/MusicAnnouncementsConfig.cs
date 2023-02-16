@@ -65,7 +65,7 @@ namespace MusicAnnouncements
 			});
 		}
 
-		private void AddCheckbox(Configurable<bool> optionText)
+		private void AddCheckbox(Configurable<bool> optionText, float y)
 		{
 			OpCheckBox checkbox = new OpCheckBox(optionText, new Vector2(150f, 500f))
 			{
