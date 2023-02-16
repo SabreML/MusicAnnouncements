@@ -65,7 +65,15 @@ namespace MusicAnnouncements
 
 			// The full `name` will be something like "RW_24 - Kayava". We only want to announce the part after the dash.
 			songToAnnounce = Regex.Split(name, " - ")[1];
-			announceAttempts = 500; // 500 attempts
+			
+			if (MusicAnnouncementsConfig.inGameText.Value) // Gameplay announcements are enabled.
+			{
+				announceAttempts = 500; // 500 attempts
+			}
+			else
+			{
+				Debug.Log("(MusicAnnouncements) Skipping gameplay announcement due to config");
+			}
 		}
 
 		// Called when a song ends (or is otherwise deleted).
