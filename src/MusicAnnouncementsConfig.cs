@@ -72,7 +72,7 @@ namespace MusicAnnouncements
 				description = optionText.info.description
 			};
 
-			OpLabel checkboxLabel = new OpLabel(150f + 40f, 500f + 2f, optionText.info.Tags[0] as string)
+			OpLabel checkboxLabel = new OpLabel(150f + 40f, y + 2f, optionText.info.Tags[0] as string)
 			{
 				description = optionText.info.description
 			};
