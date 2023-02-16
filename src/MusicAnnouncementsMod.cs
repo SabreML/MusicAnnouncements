@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.1.1")]
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.0")]
 	public partial class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a variable so that I don't have to update it in as many places.)
@@ -66,7 +66,7 @@ namespace MusicAnnouncements
 			// The full `name` will be something like "RW_24 - Kayava". We only want to announce the part after the dash.
 			songToAnnounce = Regex.Split(name, " - ")[1];
 			
-			if (MusicAnnouncementsConfig.inGameText.Value) // Gameplay announcements are enabled.
+			if (MusicAnnouncementsConfig.ingameText.Value) // Gameplay announcements are enabled.
 			{
 				announceAttempts = 500; // 500 attempts
 			}

@@ -5,18 +5,18 @@ namespace MusicAnnouncements
 {
 	public class MusicAnnouncementsConfig : OptionInterface
 	{
-		public static Configurable<bool> pauseMenuText;
 		public static Configurable<bool> ingameText;
+		public static Configurable<bool> pauseMenuText;
 
 		public MusicAnnouncementsConfig()
 		{
+			ingameText = config.Bind("ingameText", true, new ConfigurableInfo("Announce newly playing songs at the bottom left of the screen in-game.", tags: new object[]
+			{
+				"Announce new songs in-game"
+			}));
 			pauseMenuText = config.Bind("pauseMenuText", true, new ConfigurableInfo("Show the name of the currently playing song in the top right of the pause menu.", tags: new object[]
 			{
 				"Show currently playing song in the pause menu"
-			}));
-			ingameText = config.Bind("ingameText", true, new ConfigurableInfo("Announce the name of the currently playing song in the bottom left of the screen.", tags: new object[]
-			{
-				"Announce currently playing song in the bottom left"
 			}));
 		}
 
@@ -32,8 +32,8 @@ namespace MusicAnnouncements
 			AddDivider(593f);
 			AddTitle();
 			AddDivider(540f);
-			AddCheckbox(pauseMenuText, 500f);
-			AddCheckbox(ingameText, 460f);
+			AddCheckbox(ingameText, 500f);
+			AddCheckbox(pauseMenuText, 460f);
 		}
 
 		private void AddDivider(float y)
