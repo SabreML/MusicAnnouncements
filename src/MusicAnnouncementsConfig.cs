@@ -32,8 +32,8 @@ namespace MusicAnnouncements
 			AddDivider(593f);
 			AddTitle();
 			AddDivider(540f);
-			AddCheckbox(pauseMenuText);
-			AddCheckbox(ingameText);
+			AddCheckbox(pauseMenuText, 500f);
+			AddCheckbox(ingameText, 460f);
 		}
 
 		private void AddDivider(float y)
