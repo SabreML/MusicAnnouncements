@@ -50,11 +50,6 @@ namespace MusicAnnouncements
 		private void SongHK(On.Music.Song.orig_ctor orig, Song self, MusicPlayer musicPlayer, string name, MusicPlayer.MusicContext context)
 		{
 			orig(self, musicPlayer, name, context);
-			if (!MusicAnnouncementsConfig.ingameText.Value) // Gameplay announcement disabled
-			{
-				Debug.Log("(MusicAnnouncements) Skipping gameplay announcement due to config");
-				return;
-			}
 			if (context != MusicPlayer.MusicContext.StoryMode) // Ingame music only.
 			{
 				return;
