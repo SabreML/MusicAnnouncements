@@ -66,7 +66,7 @@ namespace MusicAnnouncements
 			// The full `name` will be something like "RW_24 - Kayava". We only want to announce the part after the dash.
 			songToAnnounce = Regex.Split(name, " - ")[1];
 			
-			if (MusicAnnouncementsConfig.ingameText.Value) // Gameplay announcements are enabled.
+			if (MusicAnnouncementsConfig.IngameText.Value) // Gameplay announcements are enabled.
 			{
 				announceAttempts = 500; // 500 attempts
 			}

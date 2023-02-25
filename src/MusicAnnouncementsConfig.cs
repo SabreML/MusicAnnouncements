@@ -5,22 +5,22 @@ namespace MusicAnnouncements
 {
 	public class MusicAnnouncementsConfig : OptionInterface
 	{
-		public static Configurable<bool> ingameText;
-		public static Configurable<bool> pauseMenuText;
+		public static Configurable<bool> IngameText;
+		public static Configurable<bool> PauseMenuText;
 
 		public MusicAnnouncementsConfig()
 		{
-			ingameText = config.Bind("ingameText", true, new ConfigurableInfo("Announce newly playing songs at the bottom left of the screen in-game.", tags: new object[]
+			IngameText = config.Bind("ingameText", true, new ConfigurableInfo("Announce newly playing songs at the bottom left of the screen in-game.", tags: new object[]
 			{
 				"Announce new songs in-game"
 			}));
-			pauseMenuText = config.Bind("pauseMenuText", true, new ConfigurableInfo("Show the name of the currently playing song in the top right of the pause menu.", tags: new object[]
+			PauseMenuText = config.Bind("pauseMenuText", true, new ConfigurableInfo("Show the name of the currently playing song in the top right of the pause menu.", tags: new object[]
 			{
 				"Show currently playing song in the pause menu"
 			}));
 		}
 
-		// Called when the config menu is opened by the player. (I think)
+		// Called when the config menu is opened by the player.
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -32,10 +32,11 @@ namespace MusicAnnouncements
 			AddDivider(593f);
 			AddTitle();
 			AddDivider(540f);
-			AddCheckbox(ingameText, 500f);
-			AddCheckbox(pauseMenuText, 460f);
+			AddCheckbox(IngameText, 500f);
+			AddCheckbox(PauseMenuText, 460f);
 		}
 
+		// Combines two flipped 'LinearGradient200's together to make a fancy looking divider.
 		private void AddDivider(float y)
 		{
 			OpImage dividerLeft = new OpImage(new Vector2(300f, y), "LinearGradient200");
@@ -53,6 +54,7 @@ namespace MusicAnnouncements
 			});
 		}
 
+		// Adds the mod name and version to the interface.
 		private void AddTitle()
 		{
 			OpLabel title = new OpLabel(new Vector2(150f, 560f), new Vector2(300f, 30f), "Music Announcements Mod", bigText: true);
@@ -65,6 +67,7 @@ namespace MusicAnnouncements
 			});
 		}
 
+		// Adds a checkbox tied to the config setting passed through `optionText`, as well as a label next to it with a description.
 		private void AddCheckbox(Configurable<bool> optionText, float y)
 		{
 			OpCheckBox checkbox = new OpCheckBox(optionText, new Vector2(150f, y))

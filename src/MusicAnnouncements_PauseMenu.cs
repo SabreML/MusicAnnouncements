@@ -27,7 +27,7 @@ namespace MusicAnnouncements
 			{
 				return;
 			}
-			if (!MusicAnnouncementsConfig.pauseMenuText.Value) // If the player has unticked `pauseMenuText` in the mod's config.
+			if (!MusicAnnouncementsConfig.PauseMenuText.Value) // If the player has unticked `pauseMenuText` in the mod's config.
 			{
 				Debug.Log("(MusicAnnouncements) Skipping pause menu text due to config");
 				return;
