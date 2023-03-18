@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using HUD;
 using Music;
 using System.Security.Permissions;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.0")]
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.2")]
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a variable so that I don't have to update it in as many places.)
@@ -21,6 +22,7 @@ namespace MusicAnnouncements
 
 		// The number of attempts to make to try and announce the music.
 		public static int AnnounceAttempts;
+
 
 		public void OnEnable()
 		{
@@ -33,6 +35,7 @@ namespace MusicAnnouncements
 			On.Music.Song.ctor += SongHK;
 			On.Music.MusicPiece.StopAndDestroy += MusicPiece_StopAndDestroyHK;
 			On.Music.MusicPlayer.Update += MusicPlayer_UpdateHK;
+			On.HUD.TextPrompt.Draw += TextPrompt_DrawHK;
 
 			// Pause menu hooks.
 			PauseMenuText.SetupHooks();
@@ -50,7 +53,7 @@ namespace MusicAnnouncements
 		private void SongHK(On.Music.Song.orig_ctor orig, Song self, MusicPlayer musicPlayer, string name, MusicPlayer.MusicContext context)
 		{
 			orig(self, musicPlayer, name, context);
-			if (context != MusicPlayer.MusicContext.StoryMode) // Ingame music only.
+			if (context == MusicPlayer.MusicContext.Menu) // Ingame music only.
 			{
 				return;
 			}
@@ -65,12 +68,19 @@ namespace MusicAnnouncements
 
 			// The full `name` will be something like "RW_24 - Kayava". We want the part after the dash.
 			SongToAnnounce = Regex.Split(name, " - ")[1];
-			
+
+			// Arena mode announces the song name in the bottom left by itself already, so there's no need to do it here with `AnnounceAttempts`.
+			// (`SongToAnnounce` is still set though so that the pause menu text is shown.)
+			if (context == MusicPlayer.MusicContext.Arena)
+			{
+				return;
+			}
+
 			if (MusicAnnouncementsConfig.IngameText.Value) // Gameplay announcements are enabled.
 			{
 				AnnounceAttempts = 500; // 500 attempts
 			}
-			else
+			else // Gameplay announcements are disabled.
 			{
 				Debug.Log("(MusicAnnouncements) Skipping gameplay announcement due to config");
 			}
@@ -82,7 +92,9 @@ namespace MusicAnnouncements
 			orig(self);
 			if (self.GetType() == typeof(Song))
 			{
+				// Reset everything back to default.
 				SongToAnnounce = null;
+				AnnounceAttempts = 0;
 			}
 		}
 
@@ -111,12 +123,33 @@ namespace MusicAnnouncements
 
 		// Exactly the same as `HUD.TextPrompt.AddMusicMessage()`, but with the `hideHud` argument set to `true`.
 		// Without this it can look pretty weird if the HUD is up.
-		private void AddMusicMessage_HideHUD(HUD.TextPrompt self, string text, int time)
+		private void AddMusicMessage_HideHUD(TextPrompt self, string text, int time)
 		{
-			self.messages.Add(new HUD.TextPrompt.MusicMessage("    ~ " + text, 0, time, false, true));
+			self.messages.Add(new TextPrompt.MusicMessage("    ~ " + text, 0, time, false, true));
 			if (self.messages.Count == 1)
 			{
 				self.InitNextMessage();
+			}
+		}
+
+		// This is here mainly to hide the little quaver/quarter note 'music sprite' if there isn't currently a music announcement on the screen.
+		// Without this, if another message of a higher priority overrides it (Pause menu, game over, etc.), the music sprite will still be visible overlapping with the new text.
+		private void TextPrompt_DrawHK(On.HUD.TextPrompt.orig_Draw orig, TextPrompt self, float timeStacker)
+		{
+			orig(self, timeStacker);
+			// If the current message is a music announcement, but it's being overridden by another type of `TextPrompt`.
+			if ((self.musicSprite != null && self.messages.Count > 0 && self.messages[0] is TextPrompt.MusicMessage) && self.currentlyShowing != TextPrompt.InfoID.Message)
+			{
+				// Force the music sprite to be invisible.
+				self.musicSprite.alpha = 0f;
+
+				// Also, if the message override was caused by the pause menu being opened, force the black letterbox border at the top to be visible.
+				// It only seems to disappear in Arena mode for whatever reason, but it happens consistently and the pause menu text looks weird without it.
+				if (self.currentlyShowing == TextPrompt.InfoID.Paused)
+				{
+					float currentAlpha = Mathf.Lerp(self.lastShow, self.show, timeStacker);
+					self.sprites[0].y = self.hud.rainWorld.screenSize.y - (30f + self.hud.rainWorld.options.SafeScreenOffset.y) * RWCustom.Custom.SCurve(Mathf.InverseLerp(0f, 0.5f, currentAlpha), 0.5f);
+				}
 			}
 		}
 	}
