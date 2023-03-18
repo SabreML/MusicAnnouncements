@@ -11,21 +11,21 @@ using UnityEngine;
 namespace MusicAnnouncements
 {
 	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.0")]
-	public partial class MusicAnnouncementsMod : BaseUnityPlugin
+	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a variable so that I don't have to update it in as many places.)
-		public static string version;
+		public static string Version;
 
 		// The name of the song to announce. (Also used to display the track name in the pause menu)
-		private string songToAnnounce;
+		public static string SongToAnnounce;
 
 		// The number of attempts to make to try and announce the music.
-		private int announceAttempts;
+		public static int AnnounceAttempts;
 
 		public void OnEnable()
 		{
 			// Take the version number that was given to `BepInPlugin()` above.
-			version = Info.Metadata.Version.ToString();
+			Version = Info.Metadata.Version.ToString();
 
 			On.RainWorld.OnModsInit += RainWorld_OnModsInitHK;
 
@@ -35,7 +35,7 @@ namespace MusicAnnouncements
 			On.Music.MusicPlayer.Update += MusicPlayer_UpdateHK;
 
 			// Pause menu hooks.
-			SetupPauseMenuHooks();
+			PauseMenuText.SetupHooks();
 		}
 
 		private void RainWorld_OnModsInitHK(On.RainWorld.orig_OnModsInit orig, RainWorld self)
@@ -46,7 +46,7 @@ namespace MusicAnnouncements
 		}
 
 		// Called when a new song is instantiated.
-		// If it's the correct type of song (playing as an event ingame), `songToAnnounce` and `announceAttempts` are set.
+		// If it's the correct type of song (playing as an event ingame), `SongToAnnounce` and `AnnounceAttempts` are set.
 		private void SongHK(On.Music.Song.orig_ctor orig, Song self, MusicPlayer musicPlayer, string name, MusicPlayer.MusicContext context)
 		{
 			orig(self, musicPlayer, name, context);
@@ -58,17 +58,17 @@ namespace MusicAnnouncements
 			{
 				return;
 			}
-			if (self.GetType() != typeof(Song)) // Skip over other types of BGM too.
+			if (self.GetType() != typeof(Song)) // Skip over other types of music too. (Ending cutscenes, music pearl, etc.)
 			{
 				return;
 			}
 
-			// The full `name` will be something like "RW_24 - Kayava". We only want to announce the part after the dash.
-			songToAnnounce = Regex.Split(name, " - ")[1];
+			// The full `name` will be something like "RW_24 - Kayava". We want the part after the dash.
+			SongToAnnounce = Regex.Split(name, " - ")[1];
 			
 			if (MusicAnnouncementsConfig.IngameText.Value) // Gameplay announcements are enabled.
 			{
-				announceAttempts = 500; // 500 attempts
+				AnnounceAttempts = 500; // 500 attempts
 			}
 			else
 			{
@@ -82,7 +82,7 @@ namespace MusicAnnouncements
 			orig(self);
 			if (self.GetType() == typeof(Song))
 			{
-				songToAnnounce = null;
+				SongToAnnounce = null;
 			}
 		}
 
@@ -92,19 +92,19 @@ namespace MusicAnnouncements
 		{
 			orig(self);
 
-			if (announceAttempts < 1)
+			if (AnnounceAttempts < 1)
 			{
 				return; // If we're out of attempts, don't go any further.
 			}
-			announceAttempts--;
+			AnnounceAttempts--;
 
 			if (self.manager.currentMainLoop is RainWorldGame gameLoop)
 			{
 				if (gameLoop.cameras[0]?.room?.ReadyForPlayer != null && gameLoop.cameras[0].hud?.textPrompt?.messages?.Count == 0)
 				{
-					Debug.Log("(MusicAnnouncements) Announcing " + songToAnnounce);
-					AddMusicMessage_HideHUD(gameLoop.cameras[0].hud.textPrompt, songToAnnounce, 240);
-					announceAttempts = 0;
+					Debug.Log("(MusicAnnouncements) Announcing " + SongToAnnounce);
+					AddMusicMessage_HideHUD(gameLoop.cameras[0].hud.textPrompt, SongToAnnounce, 240);
+					AnnounceAttempts = 0;
 				}
 			}
 		}

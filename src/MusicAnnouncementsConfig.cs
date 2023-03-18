@@ -58,7 +58,7 @@ namespace MusicAnnouncements
 		private void AddTitle()
 		{
 			OpLabel title = new OpLabel(new Vector2(150f, 560f), new Vector2(300f, 30f), "Music Announcements Mod", bigText: true);
-			OpLabel version = new OpLabel(new Vector2(150f, 540f), new Vector2(300f, 30f), $"Version {MusicAnnouncementsMod.version}");
+			OpLabel version = new OpLabel(new Vector2(150f, 540f), new Vector2(300f, 30f), $"Version {MusicAnnouncementsMod.Version}");
 
 			Tabs[0].AddItems(new UIelement[]
 			{

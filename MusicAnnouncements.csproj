@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="src\MusicAnnouncementsConfig.cs" />
-    <Compile Include="src\MusicAnnouncements_PauseMenu.cs" />
+    <Compile Include="src\PauseMenuText.cs" />
     <Compile Include="src\MusicAnnouncementsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
