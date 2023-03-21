@@ -2,7 +2,7 @@
 	"id": "sabreml.musicannouncements",
 	"name": "Music Announcements",
 	"version": "1.2.2",
-	"target_game_version": "v1.9.06",
+	"target_game_version": "v1.9.07",
 	"authors": "SabreML",
 	"description": "Shows the name of the currently playing music track in-game.",
 	"tags": ["Cosmetics"] 
