@@ -69,6 +69,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "$(RainWorldSteam)\RainWorld_Data\StreamingAssets\mods\$(ProjectName)\plugins"</PostBuildEvent>
+    <PostBuildEvent>
+      IF "$(ConfigurationName)" == "Debug" (
+      copy /Y "$(TargetDir)" "$(RainWorldSteam)\RainWorld_Data\StreamingAssets\mods\$(ProjectName)\plugins"
+      ) ELSE (
+      copy /Y "$(TargetPath)" "$(RainWorldSteam)\RainWorld_Data\StreamingAssets\mods\$(ProjectName)\plugins"
+      )
+      copy /Y "$(ProjectDir)\$(TargetName)\modinfo.json" "$(RainWorldSteam)\RainWorld_Data\StreamingAssets\mods\$(ProjectName)"
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

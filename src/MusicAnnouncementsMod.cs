@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.2")]
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.3")]
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a variable so that I don't have to update it in as many places.)
@@ -57,7 +57,7 @@ namespace MusicAnnouncements
 			{
 				return;
 			}
-			if (!name.Contains(" - ")) // Probably background music. (E.g. 'BM_CC_CANOPY')
+			if (name.StartsWith("BM_")) // Background music. (E.g. 'BM_CC_CANOPY')
 			{
 				return;
 			}
@@ -66,11 +66,20 @@ namespace MusicAnnouncements
 				return;
 			}
 
-			// The full `name` will be something like "RW_24 - Kayava". We want the part after the dash.
-			SongToAnnounce = Regex.Split(name, " - ")[1];
+			if (name.Contains(" - "))
+			{
+				// The full `name` will be something like "RW_24 - Kayava". We want the part after the dash.
+				SongToAnnounce = Regex.Split(name, " - ")[1];
+			}
+			else
+			{
+				// If it's not background music or regular music, then it might be something added by a mod.
+				// Just announce its full track name in this case.
+				SongToAnnounce = name;
+			}
 
 			// Arena mode announces the song name in the bottom left by itself already, so there's no need to do it here with `AnnounceAttempts`.
-			// (`SongToAnnounce` is still set though so that the pause menu text is shown.)
+			// (This is checked after `SongToAnnounce` is set so that the pause menu text still works.)
 			if (context == MusicPlayer.MusicContext.Arena)
 			{
 				return;
@@ -78,7 +87,7 @@ namespace MusicAnnouncements
 
 			if (MusicAnnouncementsConfig.IngameText.Value) // Gameplay announcements are enabled.
 			{
-				AnnounceAttempts = 500; // 500 attempts
+				AnnounceAttempts = 500; // 500 frames worth of attempts
 			}
 			else // Gameplay announcements are disabled.
 			{
