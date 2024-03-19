@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.3")]
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.4")]
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a variable so that I don't have to update it in as many places.)
