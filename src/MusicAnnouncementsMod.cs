@@ -11,11 +11,11 @@ using UnityEngine;
 
 namespace MusicAnnouncements
 {
-	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", "1.2.4")]
+	[BepInPlugin("sabreml.musicannouncements", "MusicAnnouncements", VERSION)]
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
-		// The current mod version. (Stored here as a variable so that I don't have to update it in as many places.)
-		public static string Version;
+		// The current mod version. (Stored here as a const so that I don't have to update it in as many places.)
+		public const string VERSION = "1.2.5";
 
 		// The name of the song to announce. (Also used to display the track name in the pause menu)
 		public static string SongToAnnounce;
@@ -26,9 +26,6 @@ namespace MusicAnnouncements
 
 		public void OnEnable()
 		{
-			// Take the version number that was given to `BepInPlugin()` above.
-			Version = Info.Metadata.Version.ToString();
-
 			On.RainWorld.OnModsInit += RainWorld_OnModsInitHK;
 
 			// In-game announcement hooks.

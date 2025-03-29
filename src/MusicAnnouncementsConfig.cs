@@ -57,8 +57,8 @@ namespace MusicAnnouncements
 		// Adds the mod name and version to the interface.
 		private void AddTitle()
 		{
-			OpLabel title = new OpLabel(new Vector2(150f, 560f), new Vector2(300f, 30f), "Music Announcements Mod", bigText: true);
-			OpLabel version = new OpLabel(new Vector2(150f, 540f), new Vector2(300f, 30f), $"Version {MusicAnnouncementsMod.Version}");
+			OpLabel title = new OpLabel(new Vector2(150f, 560f), new Vector2(300f, 30f), "Music Announcements", bigText: true);
+			OpLabel version = new OpLabel(new Vector2(150f, 540f), new Vector2(300f, 30f), $"Version {MusicAnnouncementsMod.VERSION}");
 
 			Tabs[0].AddItems(new UIelement[]
 			{
