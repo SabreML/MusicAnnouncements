@@ -15,7 +15,7 @@ namespace MusicAnnouncements
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a const so that I don't have to update it in as many places.)
-		public const string VERSION = "1.2.5";
+		public const string VERSION = "1.2.6";
 
 		// The name of the song to announce. (Also used to display the track name in the pause menu)
 		public static string SongToAnnounce;
