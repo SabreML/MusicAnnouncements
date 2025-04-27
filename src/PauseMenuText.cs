@@ -10,7 +10,7 @@ namespace MusicAnnouncements
 		// The music note icon next to the text.
 		private static FSprite labelMusicSprite;
 
-		public static void SetupHooks()
+		public static void SetUpHooks()
 		{
 			On.Menu.PauseMenu.ctor += PauseMenuHK;
 			On.Menu.PauseMenu.ShutDownProcess += PauseMenu_ShutDownProcessHK;

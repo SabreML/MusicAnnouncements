@@ -35,7 +35,7 @@ namespace MusicAnnouncements
 			On.HUD.TextPrompt.Draw += TextPrompt_DrawHK;
 
 			// Pause menu hooks.
-			PauseMenuText.SetupHooks();
+			PauseMenuText.SetUpHooks();
 		}
 
 		private void RainWorld_OnModsInitHK(On.RainWorld.orig_OnModsInit orig, RainWorld self)
@@ -120,7 +120,7 @@ namespace MusicAnnouncements
 			{
 				if (gameLoop.cameras[0]?.room?.ReadyForPlayer != null && gameLoop.cameras[0].hud?.textPrompt?.messages?.Count == 0)
 				{
-					Debug.Log("(MusicAnnouncements) Announcing " + SongToAnnounce);
+					Debug.Log($"(MusicAnnouncements) Announcing '{SongToAnnounce}'");
 					AddMusicMessage_HideHUD(gameLoop.cameras[0].hud.textPrompt, SongToAnnounce, 240);
 					AnnounceAttempts = 0;
 				}

@@ -14,7 +14,7 @@ namespace MusicAnnouncements
 			{
 				"Announce new songs in-game"
 			}));
-			PauseMenuText = config.Bind("pauseMenuText", true, new ConfigurableInfo("Show the name of the currently playing song in the top right of the pause menu.", tags: new object[]
+			PauseMenuText = config.Bind("pauseMenuText", true, new ConfigurableInfo("Show the name of the currently playing song at the top right of the pause menu.", tags: new object[]
 			{
 				"Show currently playing song in the pause menu"
 			}));
