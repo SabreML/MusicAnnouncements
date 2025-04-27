@@ -7,6 +7,7 @@ namespace MusicAnnouncements
 	{
 		public static Configurable<bool> IngameText;
 		public static Configurable<bool> PauseMenuText;
+		public static Configurable<bool> ShowBackgroundMusic;
 
 		public MusicAnnouncementsConfig()
 		{
@@ -18,6 +19,13 @@ namespace MusicAnnouncements
 			{
 				"Show currently playing song in the pause menu"
 			}));
+			ShowBackgroundMusic = config.Bind("showBackgroundMusic", false, new ConfigurableInfo(
+				"Announce the short songs which sometimes play upon entering a new region.\n(Note: Some of these have no display name)",
+				tags: new object[]
+				{
+					"Announce region entrance music (Experimental)"
+				}
+			));
 		}
 
 		// Called when the config menu is opened by the player.
@@ -34,6 +42,7 @@ namespace MusicAnnouncements
 			AddDivider(540f);
 			AddCheckbox(IngameText, 500f);
 			AddCheckbox(PauseMenuText, 460f);
+			AddCheckbox(ShowBackgroundMusic, 420f);
 		}
 
 		// Combines two flipped 'LinearGradient200's together to make a fancy looking divider.

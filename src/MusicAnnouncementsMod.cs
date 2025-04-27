@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using HUD;
 using Music;
+using System.Collections.Generic;
 using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace MusicAnnouncements
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a const so that I don't have to update it in as many places.)
-		public const string VERSION = "1.2.6";
+		public const string VERSION = "1.3.0";
 
 		// The name of the song to announce. (Also used to display the track name in the pause menu)
 		public static string SongToAnnounce;
@@ -23,6 +24,23 @@ namespace MusicAnnouncements
 		// The number of attempts to make to try and announce the music.
 		public static int AnnounceAttempts;
 
+		// Dictionary of "Background Music" tracks, and their respective community-made "display names".
+		// (The display names are from Rain Land Society's 'The Hidden Songs' youtube playlist.)
+		private static readonly Dictionary<string, string> backgroundMusicNames = new Dictionary<string, string>
+		{
+			{ "BM_CC_CANOPY",		"Clairvoyant Canopy" },
+			{ "BM_DS_GATE",			"Drainage Duct" },
+			{ "BM_HI_GATE",			"Indusrial Atrium" },
+			{ "BM_SB_FILTER",		"Filtration System" },
+			{ "BM_SB_SUBWAY",		"Desolate Subway" },
+			{ "BM_SH_CRYPTS",		"Memory Crypts" },
+			{ "BM_SI_STRUT",		"Serpentine Struts" },
+			{ "BM_SL_SHORE",		"Gate to the Shoreline" },
+			{ "BM_SS_DOOR",			"Entrance of a Superstructure" },
+			{ "BM_UW_UNDERHANG",	"Underhang" },
+			{ "BM_UW_UPPERWALL",	"Upperwall" },
+			{ "BM_UW_WALL",			"The Wall" }
+		};
 
 		public void OnEnable()
 		{
@@ -54,26 +72,18 @@ namespace MusicAnnouncements
 			{
 				return;
 			}
-			if (name.StartsWith("BM_")) // Background music. (E.g. 'BM_CC_CANOPY')
-			{
-				return;
-			}
 			if (self.GetType() != typeof(Song)) // Skip over other types of music too. (Ending cutscenes, music pearl, etc.)
 			{
 				return;
 			}
 
-			if (name.Contains(" - "))
+			// Get the track name.
+			string displayName = ParseTrackName(name);
+			if (displayName == string.Empty)
 			{
-				// The full `name` will be something like "RW_24 - Kayava". We want the part after the dash.
-				SongToAnnounce = Regex.Split(name, " - ")[1];
+				return;
 			}
-			else
-			{
-				// If it's not background music or regular music, then it might be something added by a mod.
-				// Just announce its full track name in this case.
-				SongToAnnounce = name;
-			}
+			SongToAnnounce = displayName;
 
 			// Arena mode announces the song name in the bottom left by itself already, so there's no need to do it here with `AnnounceAttempts`.
 			// (This is checked after `SongToAnnounce` is set so that the pause menu text still works.)
@@ -90,6 +100,44 @@ namespace MusicAnnouncements
 			{
 				Debug.Log("(MusicAnnouncements) Skipping gameplay announcement due to config");
 			}
+		}
+
+		private string ParseTrackName(string fullTrackName)
+		{
+			// Background music without a track name. (E.g. "BM_CC_CANOPY")
+			if (fullTrackName.StartsWith("BM_"))
+			{
+				// If the user doesn't have the BGM setting enabled, then don't announce this at all.
+				if (!MusicAnnouncementsConfig.ShowBackgroundMusic.Value)
+				{
+					Debug.Log($"(MusicAnnouncements) Skipping '{fullTrackName}' announcement due to config");
+					return string.Empty;
+				}
+
+				// Otherwise, try to return the track's associated display name from `backgroundMusicNames`.
+				if (backgroundMusicNames.TryGetValue(fullTrackName, out string displayName))
+				{
+					return displayName;
+				}
+				else
+				{
+					// If there isn't an associated display name, make a log to explain why the announcement might look weird.
+					Debug.Log($"(MusicAnnouncements) No custom display name exists for '{fullTrackName}'");
+					// Return the full track name since the setting is enabled.
+					return fullTrackName;
+				}
+			}
+
+			// If it's not background music and contains a dash, then the full name will likely be along the lines of "RW_24 - Kayava".
+			if (fullTrackName.Contains(" - "))
+			{
+				// We want the part after the dash. (In the above case this would be "Kayava".)
+				return Regex.Split(fullTrackName, " - ")[1];
+			}
+
+			// If it's not background music or regular music, then it might be something added by a mod.
+			// Just announce its full track name in this case.
+			return fullTrackName;
 		}
 
 		// Called when a song ends (or is otherwise deleted).
