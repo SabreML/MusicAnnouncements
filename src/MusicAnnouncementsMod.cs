@@ -28,6 +28,7 @@ namespace MusicAnnouncements
 		// (The display names are from Rain Land Society's 'The Hidden Songs' youtube playlist.)
 		private static readonly Dictionary<string, string> backgroundMusicNames = new Dictionary<string, string>
 		{
+			// Basegame.
 			{ "BM_CC_CANOPY",		"Clairvoyant Canopy" },
 			{ "BM_DS_GATE",			"Drainage Duct" },
 			{ "BM_HI_GATE",			"Indusrial Atrium" },
@@ -39,7 +40,19 @@ namespace MusicAnnouncements
 			{ "BM_SS_DOOR",			"Entrance of a Superstructure" },
 			{ "BM_UW_UNDERHANG",	"Underhang" },
 			{ "BM_UW_UPPERWALL",	"Upperwall" },
-			{ "BM_UW_WALL",			"The Wall" }
+			{ "BM_UW_WALL",			"The Wall" },
+
+			// Watcher
+			{ "BM_RWTW_ASCENT",				"Ascent" },
+			{ "BM_RWTW_BLUEENVOI",			"Blue Envoi" },
+			{ "BM_RWTW_COLLAPSEDEARTH",		"Collapsed Earth" },
+			{ "BM_RWTW_IMPACTSUB",			"Impact Sub" },
+			{ "BM_RWTW_INANNA",				"Inanna" },
+			{ "BM_RWTW_MOURNFULECLIPSE",	"Mournful Eclipse" },
+			{ "BM_RWTW_UNDISTURBED",		"Undisturbed" },
+			{ "BM_RWTW_UNDSQUEAK",			"Undsqueak" },
+			{ "BM_RWTW_VERTUNE",			"Vertune" },
+			{ "BM_RWTW_VIOLETABYSS",		"Violet Abyss" },
 		};
 
 		public void OnEnable()
