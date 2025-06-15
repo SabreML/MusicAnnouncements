@@ -52,7 +52,7 @@ namespace MusicAnnouncements
 
 			self.pages[0].subObjects.Add(currentlyPlayingLabel);
 			self.pages[0].Container.AddChild(labelMusicSprite);
-			Debug.Log($"(MusicAnnouncements) Currently Playing: {MusicAnnouncementsMod.SongToAnnounce}");
+			Debug.Log($"(MusicAnnouncements) Currently Playing: '{MusicAnnouncementsMod.SongToAnnounce}'");
 		}
 
 		private static void PauseMenu_ShutDownProcessHK(On.Menu.PauseMenu.orig_ShutDownProcess orig, PauseMenu self)

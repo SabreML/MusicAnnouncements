@@ -25,34 +25,55 @@ namespace MusicAnnouncements
 		public static int AnnounceAttempts;
 
 		// Dictionary of "Background Music" tracks, and their respective community-made "display names".
-		// (The display names are from Rain Land Society's 'The Hidden Songs' youtube playlist.)
+		// (The display names for the vanilla tracks are from Rain Land Society's 'The Hidden Songs' youtube playlist.)
 		private static readonly Dictionary<string, string> backgroundMusicNames = new Dictionary<string, string>
 		{
 			// Basegame.
-			{ "BM_CC_CANOPY",		"Clairvoyant Canopy" },
-			{ "BM_DS_GATE",			"Drainage Duct" },
-			{ "BM_HI_GATE",			"Indusrial Atrium" },
-			{ "BM_SB_FILTER",		"Filtration System" },
-			{ "BM_SB_SUBWAY",		"Desolate Subway" },
-			{ "BM_SH_CRYPTS",		"Memory Crypts" },
-			{ "BM_SI_STRUT",		"Serpentine Struts" },
-			{ "BM_SL_SHORE",		"Gate to the Shoreline" },
-			{ "BM_SS_DOOR",			"Entrance of a Superstructure" },
-			{ "BM_UW_UNDERHANG",	"Underhang" },
-			{ "BM_UW_UPPERWALL",	"Upperwall" },
-			{ "BM_UW_WALL",			"The Wall" },
+			{ "BM_CC_CANOPY",            "Clairvoyant Canopy" },
+			{ "BM_DS_GATE",              "Drainage Duct" },
+			{ "BM_HI_GATE",              "Indusrial Atrium" },
+			{ "BM_SB_FILTER",            "Filtration System" },
+			{ "BM_SB_SUBWAY",            "Desolate Subway" },
+			{ "BM_SH_CRYPTS",            "Memory Crypts" },
+			{ "BM_SI_STRUT",             "Serpentine Struts" },
+			{ "BM_SL_SHORE",             "Gate to the Shoreline" },
+			{ "BM_SS_DOOR",              "Entrance of a Superstructure" },
+			{ "BM_UW_UNDERHANG",         "Underhang" },
+			{ "BM_UW_UPPERWALL",         "Upperwall" },
+			{ "BM_UW_WALL",              "The Wall" },
 
-			// Watcher
-			{ "BM_RWTW_ASCENT",				"Ascent" },
-			{ "BM_RWTW_BLUEENVOI",			"Blue Envoy" }, // Listed as "Blue Envoy" (not "Envoi") in the OST.
-			{ "BM_RWTW_COLLAPSEDEARTH",		"Collapsed Earth" },
-			{ "BM_RWTW_IMPACTSUB",			"Impact Sub" },
-			{ "BM_RWTW_INANNA",				"Inanna" },
-			{ "BM_RWTW_MOURNFULECLIPSE",	"Mournful Eclipse" },
-			{ "BM_RWTW_UNDISTURBED",		"Undisturbed" },
-			{ "BM_RWTW_UNDSQUEAK",			"Undsqueak" },
-			{ "BM_RWTW_VERTUNE",			"Vertune" },
-			{ "BM_RWTW_VIOLETABYSS",		"Violet Abyss" },
+			// Watcher.
+			{ "BM_RWTW_ASCENT",          "Ascent" },
+			{ "BM_RWTW_BLUEENVOI",       "Blue Envoy" }, // Listed as "Blue Envoy" (not "Envoi") in the OST.
+			{ "BM_RWTW_COLLAPSEDEARTH",  "Collapsed Earth" },
+			{ "BM_RWTW_IMPACTSUB",       "Impact Sub" },
+			{ "BM_RWTW_INANNA",          "Inanna" },
+			{ "BM_RWTW_MOURNFULECLIPSE", "Mournful Eclipse" },
+			{ "BM_RWTW_UNDISTURBED",     "Undisturbed" },
+			{ "BM_RWTW_UNDSQUEAK",       "Undsqueak" },
+			{ "BM_RWTW_VERTUNE",         "Vertune" },
+			{ "BM_RWTW_VIOLETABYSS",     "Violet Abyss" },
+
+			/* As far as I know, no names currently exist for these tracks:
+			{ "BM_RWTW_TAG_01",          "???" },
+			{ "BM_RWTW_TAG_02",          "???" },
+			{ "BM_RWTW_TAG_03",          "???" },
+			{ "BM_RWTW_TAG_04",          "???" },
+			{ "BM_RWTW_TAG_05",          "???" },
+			{ "BM_RWTW_TAG_06",          "???" },
+			{ "BM_RWTW_TAG_07",          "???" },
+			{ "BM_RWTW_TAG_08",          "???" },
+			{ "BM_RWTW_TAG_09",          "???" },
+			{ "BM_RWTW_TAG_10",          "???" },
+			{ "BM_RWTW_TAG_11",          "???" },
+			{ "BM_RWTW_TAG_12",          "???" },
+			{ "BM_RWTW_TAG_13",          "???" },
+			{ "BM_RWTW_TAG_14",          "???" },
+			{ "BM_RWTW_TAG_15",          "???" }, // This one doesn't appear in-game.
+			{ "BM_RWTW_TAG_16",          "???" },
+			{ "BM_RWTW_TAG_17",          "???" },
+			{ "BM_RWTW_TAG_18",          "???" },
+			*/
 		};
 
 		public void OnEnable()
