@@ -16,7 +16,7 @@ namespace MusicAnnouncements
 	public class MusicAnnouncementsMod : BaseUnityPlugin
 	{
 		// The current mod version. (Stored here as a const so that I don't have to update it in as many places.)
-		public const string VERSION = "1.3.2";
+		public const string VERSION = "1.3.3";
 
 		// The name of the song to announce. (Also used to display the track name in the pause menu)
 		public static string SongToAnnounce;
@@ -44,7 +44,7 @@ namespace MusicAnnouncements
 
 			// Watcher
 			{ "BM_RWTW_ASCENT",				"Ascent" },
-			{ "BM_RWTW_BLUEENVOI",			"Blue Envoi" },
+			{ "BM_RWTW_BLUEENVOI",			"Blue Envoy" }, // Listed as "Blue Envoy" (not "Envoi") in the OST.
 			{ "BM_RWTW_COLLAPSEDEARTH",		"Collapsed Earth" },
 			{ "BM_RWTW_IMPACTSUB",			"Impact Sub" },
 			{ "BM_RWTW_INANNA",				"Inanna" },
